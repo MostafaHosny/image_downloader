@@ -20,11 +20,11 @@ RSpec.describe ImageDownloader do
       let(:urls) {'https://me.com/image1.jpg https://you.com/image2.jpg'}
       let(:urls_count) { urls.split(' ').size }
 
-      it "downloads the images in the provided dirctory" do
+      it 'downloads the images in the provided dirctory' do
         subject.download
 
-        expect(File.exists?(File.join(tmp_dir, 'image1'))).to be_truthy
-        expect(File.exists?(File.join(tmp_dir, 'image2'))).to be_truthy
+        expect(File.exist?(File.join(tmp_dir, 'image1.jpg'))).to be_truthy
+        expect(File.exist?(File.join(tmp_dir, 'image2.jpg'))).to be_truthy
       end
     end
   end
