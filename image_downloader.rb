@@ -21,8 +21,6 @@ class ImageDownloader
   private
 
   def urls
-    return unless File.exist?(@file_path)
-
     file = File.open(@file_path).read
     file.split
   end
@@ -30,9 +28,11 @@ class ImageDownloader
   def download_image(url)
     uri = URI.parse(url)
     response = Net::HTTP.get_response(uri)
-
     save_image(response, uri.path.split('/').last)
     puts "url: #{url} Downloaded"
+  rescue => e
+    puts "Error: #{url} Failed to download"
+    puts "Error: #{e}"
   end
 
   def save_image(response, image_name)

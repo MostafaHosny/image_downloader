@@ -40,7 +40,7 @@ RSpec.describe ImageDownloader do
       let(:valid_url) { urls.split.last }
 
       it 'logs invalid download url' do
-        expect { subject.download }.to output(/Failed to download: #{invalid_url}, Error: /).to_stdout
+        expect { subject.download }.to output(/Error: #{invalid_url} Failed to download/).to_stdout
       end
 
       it 'downloads the valid url' do
