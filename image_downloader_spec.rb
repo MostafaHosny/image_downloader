@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rspec'
+require 'tempfile'
 require_relative './image_downloader'
 
 RSpec.describe ImageDownloader do
@@ -25,6 +26,12 @@ RSpec.describe ImageDownloader do
 
         expect(File.exist?(File.join(tmp_dir, 'image1.jpg'))).to be_truthy
         expect(File.exist?(File.join(tmp_dir, 'image2.jpg'))).to be_truthy
+      end
+
+      it 'logs the downloaded urls' do
+        urls_list = urls.split
+        expect { subject.download }.to output(/url: #{urls_list.first} Downloaded/).to_stdout
+        expect { subject.download }.to output(/url: #{urls_list.last} Downloaded/).to_stdout
       end
     end
   end
