@@ -17,9 +17,8 @@ RSpec.describe ImageDownloader do
     end
     subject { ImageDownloader.new(file_path, tmp_dir) }
 
-    context 'when the urls are valid' do
+    context 'when the file urls are valid' do
       let(:urls) { 'https://me.com/image1.jpg https://you.com/image2.jpg' }
-      let(:urls_count) { urls.split(' ').size }
 
       it 'downloads the images in the provided dirctory' do
         subject.download
@@ -32,6 +31,21 @@ RSpec.describe ImageDownloader do
         urls_list = urls.split
         expect { subject.download }.to output(/url: #{urls_list.first} Downloaded/).to_stdout
         expect { subject.download }.to output(/url: #{urls_list.last} Downloaded/).to_stdout
+      end
+    end
+
+    context 'when some urls are invalid' do
+      let(:urls) { 'invalid_url/mage1.jpg https://example.com/image.jpg' }
+      let(:invalid_url) { urls.split.first }
+      let(:valid_url) { urls.split.last }
+
+      it 'logs invalid download url' do
+        expect { subject.download }.to output(/Failed to download: #{invalid_url}, Error: /).to_stdout
+      end
+
+      it 'downloads the valid url' do
+        subject.download
+        expect(File.exist?(File.join(tmp_dir, valid_url.split('/').last))).to be_truthy
       end
     end
   end
