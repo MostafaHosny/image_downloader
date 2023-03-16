@@ -1,8 +1,12 @@
+# frozen_string_literal: true
+
 require 'net/http'
 require 'uri'
-
+# The ImageDownloader class is responsible for downloading images from URLs and saving them to a local directory.
+# It accepts a file path containing URLs of images to download, and a directory path to save the downloaded images.
+# To use the ImageDownloader class, create a new instance with a file path and a save directory path, and call the
+# `download` method.
 class ImageDownloader
-
   def initialize(file_path, save_dir = Dir.pwd)
     @file_path = file_path
     @save_dir = save_dir
@@ -17,10 +21,10 @@ class ImageDownloader
   private
 
   def urls
-    return unless File.exists?(@file_path)
+    return unless File.exist?(@file_path)
 
     file = File.open(@file_path).read
-    file.split()
+    file.split
   end
 
   def download_image(url)
