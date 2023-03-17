@@ -2,7 +2,6 @@
 
 require 'net/http'
 require 'uri'
-require 'pry'
 # The ImageDownloader class is responsible for downloading images from URLs and saving them to a local directory.
 # It accepts a file path containing URLs of images to download, and a directory path to save the downloaded images.
 # To use the ImageDownloader class, create a new instance with a file path and a save directory path, and call the
