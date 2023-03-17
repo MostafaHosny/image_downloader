@@ -15,9 +15,9 @@ RSpec.describe ImageDownloader do
       file.close
       file.path
     end
-    let(:http_response) { double(Net::HTTPResponse) }
     subject { ImageDownloader.new(file_path, tmp_dir) }
 
+    let(:http_response) { double(Net::HTTPResponse) }
     before { allow(Net::HTTP).to receive(:get_response).and_return(http_response) }
 
     context 'when the file urls are valid' do
@@ -60,10 +60,18 @@ RSpec.describe ImageDownloader do
         expect(File.exist?(File.join(tmp_dir, valid_url.split('/').last))).to be_truthy
       end
     end
-    context 'when photos has the same name' do
-      let(:urls) { 'http:you.com/image.jpg http::me.com/image.jpg' }
-      let(:invalid_url) { urls.split.first }
-      let(:valid_url) { urls.split.last }
+    context 'when photos has same names' do
+      let(:urls) { 'https://me.com/image.jpg https://you.com/image.jpg' }
+
+      before do
+        allow(http_response).to receive(:is_a?).with(Net::HTTPSuccess).and_return(true)
+        allow(http_response).to receive(:body).and_return("here is data")
+      end
+
+      it 'dose not ovride the old photo' do
+        subject.download
+        expect(Dir[File.join(tmp_dir, '*.jpg')].count).to eq(2)
+      end
     end
   end
 end
