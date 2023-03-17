@@ -14,8 +14,8 @@ class ImageDownloader
   end
 
   def download
-    urls.each do |url|
-      download_image(url)
+    urls.each_with_index do |url , i|
+      download_image(url, i)
     end
   end
 
@@ -26,15 +26,14 @@ class ImageDownloader
     file.split
   end
 
-  def download_image(url)
+  def download_image(url, index)
     uri = URI.parse(url)
     response = Net::HTTP.get_response(uri)
 
-    #binding.pry
-
     if response.is_a?(Net::HTTPSuccess)
-      save_image(response, uri.path.split('/').last)
-      puts "url: #{url} Downloaded"
+      image_name = "#{index}_" + uri.path.split('/').last
+      save_image(response, image_name )
+      puts "image: #{image_name} Downloaded"
     else
       puts "Error: #{url} Failed to download"
     end
