@@ -25,7 +25,7 @@ rspec image_downloader_spec.rb
 
 # Some points to mention
 1. The ImageDownloader class offers a straightforward and reusable solution for batch downloading images from a list of URLs.
-2.To maintain simplicity and avoid overengineering, the download method is synchronous, meaning images are downloaded one by one. This approach may not be ideal for large lists of URLs.
+2. To maintain simplicity and avoid overengineering, the download method is synchronous, meaning images are downloaded one by one. This approach may not be ideal for large lists of URLs.
 
 3. In case multiple images have the same name, an index is appended to the image name to avoid overwriting. This approach offers a simple way to ensure unique filenames.
 4. The ImageDownloader is implemented as a simple Ruby class, rather than a larger Rails framework, as it was not necessary for this feature. However, the script can be easily added to an existing Rails project.
